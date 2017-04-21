@@ -10,10 +10,19 @@
 	camera.position.z = 5;
 	camera.position.y = 0;
 
-	// Add light
-	var light = new THREE.DirectionalLight(0xffffff, 1.5);
-	light.position.set(0,0,1);
-	scene.add(light);
+	// Add lights
+	var light1 = new THREE.DirectionalLight(0xffffff, 1.5);
+	light1.position.set(-2,-2,-2);
+	scene.add(light1);
+
+	var light2 = new THREE.DirectionalLight(0xffffff, 1.5);
+	light2.position.set(7,7,7);
+	scene.add(light2);
+
+	var light3 = new THREE.DirectionalLight(0xffffff, 1.5);
+	light2.position.set(6,10,3);
+	scene.add(light2);
+
 			
 	// Add renderer
 	var renderer = new THREE.WebGLRenderer();
@@ -23,13 +32,16 @@
 	// Add mouse controls
 	var controls = new THREE.OrbitControls(camera, renderer.domElement);
 	controls.maxPolarAngle = Math.PI * 0.5;
-	controls.minDistance = 5;
-	controls.maxDistance = 20;
+	controls.minDistance = 10;
+	controls.maxDistance = 50;
 
 	// Add playing grid
-	var grid = new THREE.BoxGeometry(1, 1, 1);
-	var geo = new THREE.EdgesGeometry(grid);
+	var gridSquare = new THREE.BoxGeometry(1, 1, 1);
+	var geo = new THREE.EdgesGeometry(gridSquare);
 	var mat = new THREE.LineBasicMaterial({ color: 0xffffff, linewidth: 2 });
+
+	var subBlockGeo = new THREE.BoxGeometry(1, 1, 1);
+	var subBlockMaterial = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
 
 	gridSpace.cells = Array();
 	for(i = 0; i < gridSpace.length; i++)
@@ -42,18 +54,11 @@
 			{
 				gridSpace.cells[i][j][k] = new THREE.LineSegments(geo, mat);
 				scene.add(gridSpace.cells[i][j][k]);
-				gridSpace.cells[i][j][k].position.set(i,k,j);
+				gridSpace.cells[i][j][k].position.set(i,k,j); // Middle parameter is height
 			}
 		}
 	}
 
-	//var wireframe = new THREE.LineSegments(geo, mat);
-	//scene.add(wireframe);
-	//wireframe.position.set(0, 0, 0);
 
-	// Render loop
-	function render() {
-		requestAnimationFrame(render);
-		renderer.render(scene, camera);
-	}
-	render();
+
+
