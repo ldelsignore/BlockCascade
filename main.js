@@ -31,24 +31,25 @@
 	var geo = new THREE.EdgesGeometry(grid);
 	var mat = new THREE.LineBasicMaterial({ color: 0xffffff, linewidth: 2 });
 
+	gridSpace.cells = Array();
 	for(i = 0; i < gridSpace.length; i++)
 	{
-		for(j = 0; j < gridSpace.length; j++)
+		gridSpace.cells[i] = Array();	
+		for(j = 0; j < gridSpace.width; j++)
 		{
-			for(k = 0; k < gridSpace.length; k++)
-			{				
-				gridSpace.cells[i][j][k] =  new THREE.LineSegments(geo, mat);
+			gridSpace.cells[i][j] = Array();
+			for(k = 0; k < gridSpace.height; k++)
+			{
+				gridSpace.cells[i][j][k] = new THREE.LineSegments(geo, mat);
+				scene.add(gridSpace.cells[i][j][k]);
+				gridSpace.cells[i][j][k].position.set(i,k,j);
 			}
 		}
 	}
-	var wireframe = new THREE.LineSegments(geo, mat);
-	scene.add(wireframe);
-	wireframe.position = new THREE.Vector3(0, 0, 0);
 
-	var wireframe2 = new THREE.LineSegments(geo, mat);
-	scene.add(wireframe2);
-	wireframe2.position = new THREE.Vector3(0, .5, 0);
-
+	//var wireframe = new THREE.LineSegments(geo, mat);
+	//scene.add(wireframe);
+	//wireframe.position.set(0, 0, 0);
 
 	// Render loop
 	function render() {
